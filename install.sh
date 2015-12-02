@@ -9,7 +9,8 @@ function check_git {
 check_git
 
 INSTALL_DIR=$(dirname `pwd`)
-GOOGLE_APPENGINE_VERSION=1.9.26
+# https://cloud.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python
+GOOGLE_APPENGINE_VERSION=1.9.30
 GOOGLE_APPENGINE=google_appengine
 GOOGLE_APPENGINE_FILE=${GOOGLE_APPENGINE}_${GOOGLE_APPENGINE_VERSION}.zip
 CLOSURE_LIBRARY=closure-library
