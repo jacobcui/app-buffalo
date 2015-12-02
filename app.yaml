@@ -1,0 +1,35 @@
+application: hyphalpha
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+builtins:
+- django_wsgi: on
+
+handlers:
+- url: /assets
+  static_dir: assets
+
+- url: /_ah/spi/.*
+  script: services.api.server
+
+- url: /quickstart.html
+  static_files: templates/quickstart.html
+  upload: /quickstart.html
+
+- url: /user.html
+  static_files: templates/user.html
+  upload: /user.html
+
+- url: /.*
+  script: wsgi.application
+
+
+libraries:
+- name: django
+  version: "1.5"
+- name: pycrypto
+  version: latest
+- name: endpoints
+  version: 1.0
