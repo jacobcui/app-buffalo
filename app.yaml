@@ -8,27 +8,24 @@ builtins:
 - django_wsgi: on
 
 handlers:
-- url: /assets
-  static_dir: assets
+- url: /css
+  static_dir: assets/css
+
+- url: /js
+  static_dir: assets/js
 
 - url: /_ah/spi/.*
   script: services.api.server
 
-- url: /quickstart.html
-  static_files: templates/quickstart.html
-  upload: /quickstart.html
-
-- url: /user.html
-  static_files: templates/user.html
-  upload: /user.html
-
 - url: /.*
-  script: wsgi.application
+  script: urls.app
 
 
 libraries:
-- name: django
-  version: "1.5"
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
 - name: pycrypto
   version: latest
 - name: endpoints
