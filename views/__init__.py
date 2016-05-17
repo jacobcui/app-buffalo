@@ -6,7 +6,19 @@ import webapp2
 
 from google.appengine.api import users
 
-import helpers
+import settings
+
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(settings.TEMPLATE_DIR),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
+
+def get_template(html_name):
+  return JINJA_ENVIRONMENT.get_template(html_name)
+
+def render_template(html_name, template_values):
+  template = get_template(html_name)
+  return template.render(template_values)
 
 class BaseView(webapp2.RequestHandler):
   urls = {'login':'', 'logout':''}
@@ -23,4 +35,4 @@ class BaseView(webapp2.RequestHandler):
 
   def send_response(self, template_name, template_values):
     self.response.write(
-      helpers.render_template(template_name, template_values))
+      render_template(template_name, template_values))

@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
 <form class="form-signin">
   <h2 class="form-signin-heading">Please sign in</h2>
   <label for="inputEmail" class="sr-only">Email address</label>
@@ -10,10 +12,19 @@
     </label>
   </div>
   <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
+  <div class="form-group">
+    <div class="col-md-12 control">
+      <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
+        Don't have an account! 
+        <a href="/signup">
+          Sign Up Here
+        </a>
+      </div>
+    </div>
+  </div>
 </form>
 
-<div class="text-center">
-  <a class="btn btn-lg btn-social-icon btn-google" href="{{urls.login}}" rel="nofollow">
-    Sign in with Google
-  </a>
-</div>
+<p class="text-center" style="margin-top:10px;">OR</p>
+<a class="btn btn-lg btn-block btn-default btn-social-icon btn-google" href="{{urls.login}}" rel="nofollow">Sign in with Google</a>
+{% endblock %}
