@@ -22,6 +22,7 @@ CLOSURE_LINTER=closure-linter
     
 function install_appengine {
     curl -O https://storage.googleapis.com/appengine-sdks/featured/${GOOGLE_APPENGINE_FILE} && unzip ${GOOGLE_APPENGINE_FILE}
+    rm -rf ${INSTALL_DIR}/${GOOGLE_APPENGINE}
     mv ${GOOGLE_APPENGINE} ${GOOGLE_APPENGINE_FILE} ${INSTALL_DIR}/
 }
 
