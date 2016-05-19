@@ -7,5 +7,5 @@ class View(BaseView):
   """Index/Landing page view."""
 
   def get(self):
-    self.template_values['page_name'] = 'home'
-    self.send_response('index.html')
+    self.template_values['page_name'] = 'account'
+    self.send_response('account.html')

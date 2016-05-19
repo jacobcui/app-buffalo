@@ -21,18 +21,20 @@ def render_template(html_name, template_values):
   return template.render(template_values)
 
 class BaseView(webapp2.RequestHandler):
-  urls = {'login':'', 'logout':''}
+  template_values = {'settings': settings, 'signin_url': '',
+                     'signout_url': ''}
 
   def __init__(self, *args, **kwargs):
     super(BaseView, self).__init__(*args, **kwargs)
     self.user = users.get_current_user()
 
     if self.user:
-      self.urls['logout'] = users.create_logout_url(self.request.uri)
+      self.template_values['signout_url'] = users.create_logout_url('/')
     else:
-      self.urls['login'] = users.create_login_url(self.request.uri)
-    print self.urls
+      self.template_values['signin_url'] = users.create_login_url('/')
 
-  def send_response(self, template_name, template_values):
+    self.template_values['user'] = self.user or None
+
+  def send_response(self, template_name):
     self.response.write(
-      render_template(template_name, template_values))
+      render_template(template_name, self.template_values))
