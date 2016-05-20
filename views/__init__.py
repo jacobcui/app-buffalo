@@ -8,6 +8,11 @@ from google.appengine.api import users
 
 import settings
 
+ALERT_CLASS_INFO = 'alert-info'
+ALERT_CLASS_SUCCESS = 'alert-success'
+ALERT_CLASS_WARNING = 'alert-warning'
+
+
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(settings.TEMPLATE_DIR),
     extensions=['jinja2.ext.autoescape'],
@@ -31,7 +36,7 @@ class BaseView(webapp2.RequestHandler):
     if self.user:
       self.template_values['signout_url'] = users.create_logout_url('/')
     else:
-      self.template_values['signin_url'] = users.create_login_url('/')
+      self.template_values['signin_url'] = users.create_login_url('/signin/check')
 
     self.template_values['user'] = self.user or None
 

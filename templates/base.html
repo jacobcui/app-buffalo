@@ -26,6 +26,9 @@
     {% include "navbar.html" %}
 
     <div class="container">
+      {% for alert in alerts %}
+      <div class="alert {{alert.class}}" role="alert">{{alert.content}}</div>
+      {% endfor %}
       {% block content %} {% endblock %}
     </div> <!-- /container -->
   </body>
