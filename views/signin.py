@@ -15,13 +15,12 @@ class View(BaseView):
   def post(self):
     has_error = True
 
-    email = self.request.POST.get('email')
-    password = self.request.POST.get('password')
+    email = self.request.POST.get('email', '')
+    password = self.request.POST.get('password', '')
     remember_me = self.request.POST.get('remember_me', '')
 
     self.template_values['page_name'] = 'signin'
 
-    self.template_values['alerts'] = []
     if not User.getByEmail(email):
       self.template_values['alerts'].append(
         {'class': views.ALERT_CLASS_WARNING,

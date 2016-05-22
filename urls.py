@@ -1,10 +1,10 @@
 
 import webapp2
 
-from views import index, signup, signin, account, about, contact
+from views import home, signup, signin, account, about, contact
 
 app = webapp2.WSGIApplication([
-  ('/', index.View),
+  ('/', home.View),
   ('/signup', signup.View),
   ('/signin', signin.View),
   ('/signin/check', signin.Check),

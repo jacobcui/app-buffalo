@@ -4,7 +4,6 @@
 import jinja2
 import webapp2
 
-from google.appengine.api import users
 
 import settings
 
@@ -27,7 +26,7 @@ def render_template(html_name, template_values):
 
 class BaseView(webapp2.RequestHandler):
   template_values = {'settings': settings, 'signin_url': '',
-                     'signout_url': ''}
+                     'signout_url': '', 'alerts': []}
 
   def __init__(self, *args, **kwargs):
     super(BaseView, self).__init__(*args, **kwargs)
