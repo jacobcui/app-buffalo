@@ -21,7 +21,8 @@ class View(BaseView):
 
     self.template_values['page_name'] = 'signin'
 
-    if not User.getByEmail(email):
+    self.user = User.getByEmail(email)
+    if not self.user:
       self.template_values['alerts'].append(
         {'class': views.ALERT_CLASS_WARNING,
          'content': 'Email is not registered.'})
@@ -36,6 +37,9 @@ class View(BaseView):
       self.template_values['password'] = password
       self.template_values['remember_me'] = remember_me
       self.send_response('signin.html')
+
+    self.init_new_session(email)
+    self.redirect('/')
 
 
 class Check(BaseView):

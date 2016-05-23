@@ -1,6 +1,31 @@
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
+from webapp2_extras import sessions
+
+class Session(ndb.Model):
+  email = ndb.StringProperty()
+  session = ndb.StringProperty()
+
+  @classmethod
+  def Update(cls, email, session):
+    key = ndb.Key('Session', session)
+    if not key.get():
+      entity = cls()
+      entity.key = key
+      entity.email = email
+      entity.session = session
+      entity.put()
+    else:
+      entity.update(email=email, session=session)
+    return entity
+    
+  @classmethod
+  def getById(cls, session):
+    if session:
+      key = ndb.Key('Session', session)
+      return key.get()
+    return None
 
 class User(ndb.Model):
   username = ndb.StringProperty()
@@ -33,5 +58,14 @@ class User(ndb.Model):
     entity.put()
     return entity
 
-  @classmethod
-  def getCurrentUser(cls)
+  @property
+  def signout_url(self):
+    if users.get_current_user():
+      return users.create_logout_url('/')
+    return ''
+    
+  @property
+  def signin_url(self):
+    if users.get_current_user():
+      return users.create_login_url('/signin/check')
+    return ''

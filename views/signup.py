@@ -68,6 +68,6 @@ class View(BaseView):
     user = User.Create(email=signup_data.get('email'),
                        password=signup_data.get('password'))
 
-    
+    self.session['EMAB'] = self.generate_session_id()
     self.redirect('/')
                 

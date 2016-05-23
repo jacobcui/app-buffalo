@@ -21,7 +21,7 @@
       <ul class="nav navbar-nav navbar-right">
         {% if user %}
         <li class="{%if page_name=='account' %}active{% endif %}">
-          <a href="/account">{{user}}</a></li>
+          <a href="/account">{{user.email}}</a></li>
         <li><a href="{{signout_url}}">Sign Out</a></li>
         {% else %}
         <li class="{%if page_name=='signin' %}active{% endif %}">
