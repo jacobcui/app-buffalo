@@ -1,7 +1,13 @@
 
 import webapp2
 
-from views import home, signup, signin, account, about, contact
+from views import about
+from views import account
+from views import contact
+from views import home
+from views import signin
+from views import signout
+from views import signup
 
 config = {}
 config['webapp2_extras.sessions'] = {
@@ -11,10 +17,11 @@ config['webapp2_extras.sessions'] = {
 
 app = webapp2.WSGIApplication([
   ('/', home.View),
-  ('/signup', signup.View),
+  ('/about', about.View),
+  ('/account', account.View),
+  ('/contact', contact.View),
   ('/signin', signin.View),
   ('/signin/check', signin.Check),
-  ('/account', account.View),
-  ('/about', about.View),
-  ('/contact', contact.View),
+  ('/signout', signout.View),
+  ('/signup', signup.View),
 ], debug=True, config=config)

@@ -22,7 +22,7 @@
         {% if user %}
         <li class="{%if page_name=='account' %}active{% endif %}">
           <a href="/account">{{user.email}}</a></li>
-        <li><a href="{{signout_url}}">Sign Out</a></li>
+        <li><a href="/signout">Sign Out</a></li>
         {% else %}
         <li class="{%if page_name=='signin' %}active{% endif %}">
           <a href="/signin">Sign In</a></li>

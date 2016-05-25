@@ -74,6 +74,22 @@ class BaseView(webapp2.RequestHandler):
   def is_same_session(self, session_value):
     return self.session.get('EMAB', '') == session_value
 
+  def signOutCurrentUser(self):
+    """ Clears the session.
+
+    Returns:
+      Sign out URL.
+    """
+    sign_out_url = '/'
+    gmail_user = users.get_current_user()
+    if gmail_user:
+      sign_out_url =  gmail_user.create_logout_url('/')
+
+    stored_session = Session.getById(self.session.get('EMAB', ''))
+    stored_session.key.delete()
+
+    return sign_out_url
+    
   def getCurrentUser(self):
     gmail_user = users.get_current_user()
     if gmail_user:
