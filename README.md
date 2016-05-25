@@ -1,7 +1,8 @@
-# appmd
-App engine + django + Endpoints + material design + Google closure
+# App Buffalo
 
-Plus development required tools/libraries.
+App engine + webapp2 + jinja2 + Endpoints + Bootstrap + Google closure
+
+Plus a shell script to install required development tools/libraries.
 
 * Installation on Linux/Mac
   $./install.sh
@@ -12,4 +13,4 @@ Plus development required tools/libraries.
 * Deploy
   $../google_appengine/appcfg.py -A YOUR_APP_ID update .
 
-Please send me email regarding any discussions tell@jacobcui.com
+My email: jacobcui123@gmail.com
