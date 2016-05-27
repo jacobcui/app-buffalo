@@ -1,5 +1,4 @@
 
-from google.appengine.api import users
 from google.appengine.ext import ndb
 from webapp2_extras import sessions
 
@@ -57,15 +56,3 @@ class User(ndb.Model):
     entity.password = password
     entity.put()
     return entity
-
-  @property
-  def signout_url(self):
-    if users.get_current_user():
-      return users.create_logout_url('/')
-    return ''
-    
-  @property
-  def signin_url(self):
-    if users.get_current_user():
-      return users.create_login_url('/signin/check')
-    return ''

@@ -4,9 +4,9 @@ import uuid
 import jinja2
 import webapp2
 
-from google.appengine.api import users
 from models import User, Session
 from webapp2_extras import sessions
+from logics import context
 
 import settings
 
@@ -14,7 +14,6 @@ import settings
 ALERT_CLASS_INFO = 'alert-info'
 ALERT_CLASS_SUCCESS = 'alert-success'
 ALERT_CLASS_WARNING = 'alert-warning'
-
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(settings.TEMPLATE_DIR),
@@ -29,19 +28,16 @@ def render_template(html_name, template_values):
   return template.render(template_values)
 
 class BaseView(webapp2.RequestHandler):
-  template_values = {'settings': settings, 'signin_url': '',
-                     'signout_url': '', 'alerts': []}
-
   def __init__(self, *args, **kwargs):
     super(BaseView, self).__init__(*args, **kwargs)
 
     # Get a session store for this request.
     self.session_store = sessions.get_store(request=self.request)
     self.user = self.getCurrentUser()
-
-    if self.user:
-      self.template_values['signout_url'] = self.user.signout_url
-      self.template_values['signin_url'] = self.user.signin_url
+    self.template_values = {'settings': settings, 'signin_url': '',
+                            'signout_url': '', 'alerts': []}
+    self.template_values['signout_url'] = context.get_signout_url()
+    self.template_values['google_signin_url'] = context.google_signin_url
 
     self.template_values['user'] = self.user
 
@@ -81,20 +77,13 @@ class BaseView(webapp2.RequestHandler):
       Sign out URL.
     """
     sign_out_url = '/'
-    gmail_user = users.get_current_user()
-    if gmail_user:
-      sign_out_url =  gmail_user.create_logout_url('/')
-
     stored_session = Session.getById(self.session.get('EMAB', ''))
-    stored_session.key.delete()
+    if stored_session:
+      stored_session.key.delete()
 
     return sign_out_url
     
   def getCurrentUser(self):
-    gmail_user = users.get_current_user()
-    if gmail_user:
-      return gmail_user
-
     stored_session = Session.getById(self.session.get('EMAB', ''))
 
     if stored_session:

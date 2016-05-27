@@ -53,21 +53,17 @@ class View(BaseView):
         'content': 'User with email {} has been registered.'.format(signup_data.get('email'))
       })
 
-    if User.getByEmail(signup_data.get('email', '')):
-      self.template_values['alerts'].append({
-        'class': views.ALERT_CLASS_WARNING,
-        'content': 'User with email {} has been registered.'.format(signup_data.get('email'))
-      })
-    
     if self.template_values['alerts']:
       self.template_values.update(signup_data)
       self.send_response('signup.html')
       return
 
-    # Create user
-    user = User.Create(email=signup_data.get('email'),
-                       password=signup_data.get('password'))
+    email=signup_data.get('email')
 
-    self.session['EMAB'] = self.generate_session_id()
+    # Create user
+    self.user = User.Create(email=email,
+                            password=signup_data.get('password'))
+
+    self.init_new_session(email)
     self.redirect('/')
                 
