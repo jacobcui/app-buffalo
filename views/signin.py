@@ -17,18 +17,18 @@ class View(BaseView):
     has_error = False
     self.template_values['alerts'] = []
 
-    email = self.request.POST.get('email', '')
+    username = self.request.POST.get('username', '')
     password = self.request.POST.get('password', '')
     remember_me = self.request.POST.get('remember_me', '')
 
     self.template_values['page_name'] = 'signin'
 
-    self.user = User.getByEmail(email)
+    self.user = User.getByUsername(username)
     if not self.user:
       has_error = True
       self.template_values['alerts'].append(
         {'class': views.ALERT_CLASS_WARNING,
-         'content': 'Email is not registered.'})
+         'content': 'Username {} is not registered.'.format(username)})
 
     if not password:
       has_error = True
@@ -37,13 +37,13 @@ class View(BaseView):
          'content': "Password can't be empty."})
 
     if has_error:
-      self.template_values['email'] = email
+      self.template_values['username'] = username
       self.template_values['password'] = password
       self.template_values['remember_me'] = remember_me
       self.send_response('signin.html')
       return
 
-    self.init_new_session(email)
+    self.init_new_session(username)
     self.redirect('/')
 
 

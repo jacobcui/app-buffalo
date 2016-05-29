@@ -15,13 +15,20 @@ config['webapp2_extras.sessions'] = {
   'cookie_name': 'EMAB',
 }
 
+ROOT = '/'
+SIGNIN = '/signin'
+ACCOUNT_PASSWORD = '/account/password'
+
 app = webapp2.WSGIApplication([
-  ('/', home.View),
+  (ROOT, home.View),
   ('/about', about.View),
   ('/account', account.View),
+  ('/account/basic', account.Basic),
+  (ACCOUNT_PASSWORD, account.Password),
   ('/contact', contact.View),
-  ('/signin', signin.View),
+  (SIGNIN, signin.View),
   ('/signin/check', signin.Check),
   ('/signout', signout.View),
   ('/signup', signup.View),
 ], debug=True, config=config)
+

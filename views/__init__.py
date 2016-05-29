@@ -61,11 +61,11 @@ class BaseView(webapp2.RequestHandler):
   def generate_session_id(self):
     return str(uuid.uuid1())
 
-  def init_new_session(self, email):
+  def init_new_session(self, username):
     session_value = self.generate_session_id()
     self.session['EMAB'] = session_value
     self.template_values['session'] = session_value
-    Session.Update(email=email, session=session_value)
+    Session.Update(username=username, session=session_value)
     
   def is_same_session(self, session_value):
     return self.session.get('EMAB', '') == session_value
@@ -87,7 +87,7 @@ class BaseView(webapp2.RequestHandler):
     stored_session = Session.getById(self.session.get('EMAB', ''))
 
     if stored_session:
-      return User.getByEmail(stored_session.email)
+      return User.getByUsername(stored_session.username)
 
     return None
   

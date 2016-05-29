@@ -15,8 +15,8 @@ class View(BaseView):
   def post(self):
     self.template_values['page_name'] = 'signin'
     signup_data = dict(self.request.POST)
-    # {u'_token': u'', u'email': u'jacobcui123@gmail.com', u'password_confirmation': u'qwqq', u'g-recaptcha-response': u'', u'password': u'qwqq'}
-    for field in ['email', 'password', 'password_confirmation']:
+    # {u'_token': u'', u'username': u'jacobcui', u'password_confirmation': u'qwqq', u'g-recaptcha-response': u'', u'password': u'qwqq'}
+    for field in ['username', 'password', 'password_confirmation']:
       value = signup_data.get(field, '').strip()
 
       if not value:
@@ -41,16 +41,16 @@ class View(BaseView):
         'content': 'Please ensure passwords are the same.'
       })
 
-    if '@' not in signup_data.get('email', ''):
+    if not User.validate_username(signup_data.get('username', '')):
       self.template_values['alerts'].append({
         'class': views.ALERT_CLASS_WARNING,
-        'content': 'Please input valid email.'
+        'content': 'Please input valid username. Letters, Numbers, -, _ are allowed.'
       })      
       
-    if User.getByEmail(signup_data.get('email', '')):
+    if User.getByUsername(signup_data.get('username', '')):
       self.template_values['alerts'].append({
         'class': views.ALERT_CLASS_WARNING,
-        'content': 'User with email {} has been registered.'.format(signup_data.get('email'))
+        'content': 'User with username {} has been registered.'.format(signup_data.get('username'))
       })
 
     if self.template_values['alerts']:
@@ -58,12 +58,12 @@ class View(BaseView):
       self.send_response('signup.html')
       return
 
-    email=signup_data.get('email')
+    username=signup_data.get('username')
 
     # Create user
-    self.user = User.Create(email=email,
+    self.user = User.Create(username=username,
                             password=signup_data.get('password'))
 
-    self.init_new_session(email)
+    self.init_new_session(username)
     self.redirect('/')
                 

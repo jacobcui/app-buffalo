@@ -1,4 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
 
-{% endblock %}
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+      <li>
+        <a {% if page_name == 'account/basic' %} class="active" {% endif %} 
+           href="/account">Basic</a>
+      </li>
+
+      <li>
+        <a {% if page_name == 'account/password' %} class="active" {% endif %} 
+           href="/account/password">Password</a>
+      </li>
+    </ul>
+  </div>
+  <!-- /#sidebar-wrapper -->
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <div class="container-fluid">
+
+      {% if page_name == 'account/basic' %}
+      {% include "account_basic.html"%}
+      {% elif page_name == 'account/password' %}
+      {% include "account_password.html"%}
+      {% endif %}
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+
+  {% endblock %}
