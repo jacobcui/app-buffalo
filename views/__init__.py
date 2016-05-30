@@ -1,8 +1,11 @@
 """Basic view handler."""
 
-import uuid
 import jinja2
+import json
+import uuid
 import webapp2
+
+from google.appengine.api.urlfetch import Fetch
 
 from models import User, Session
 from webapp2_extras import sessions
@@ -38,7 +41,7 @@ class BaseView(webapp2.RequestHandler):
                             'signout_url': '', 'alerts': []}
     self.template_values['signout_url'] = context.get_signout_url()
     self.template_values['google_signin_url'] = context.google_signin_url
-
+    self.template_values['reCAPTCHA_site_key'] = settings.reCAPTCHA_SITEKEY
     self.template_values['user'] = self.user
 
   def send_response(self, template_name):
@@ -91,3 +94,18 @@ class BaseView(webapp2.RequestHandler):
 
     return None
   
+  def verify_recaptcha(self):
+    recaptcha_response = self.request.get('g-recaptcha-response')
+    result = Fetch('https://www.google.com/recaptcha/api/siteverify',
+                   payload='secret={}&response={}&remoteip={}'.format(
+                     settings.reCAPTCHA_SECRET,
+                     recaptcha_response,
+                     self.request.remote_addr
+                   ),
+                   method='POST',
+    )
+    if 200 == result.status_code:
+      result_dict = json.loads(result.content)
+      return result_dict.get('success', False)
+
+    return False

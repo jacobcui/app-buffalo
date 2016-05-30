@@ -1,5 +1,6 @@
 """Landing page."""
 
+
 from views import BaseView
 import views
 import urls
@@ -86,11 +87,20 @@ class Password(BaseView):
 
 class Basic(BaseView):
   def post(self):
-    current_user = self.user
-    if current_user:
-      data_to_update = {}
-      for field in ['email', 'fullname']:
-        if self.request.get(field):
-          data_to_update[field] = self.request.get(field)
-      current_user.Update(**data_to_update)
+
+    if not self.verify_recaptcha():
+      self.template_values['page_name'] = 'account/basic'
+      self.template_values['alerts'].append({
+        'class': views.ALERT_CLASS_WARNING,
+        'content': 'Please check reCAPTCHA input.'
+      })
+      self.send_response('account.html')
+    else:
+      current_user = self.user
+      if current_user:
+        data_to_update = {}
+        for field in ['email', 'fullname']:
+          if self.request.get(field):
+            data_to_update[field] = self.request.get(field)
+        current_user.Update(**data_to_update)
       self.redirect('/account')
