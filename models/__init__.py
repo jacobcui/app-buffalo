@@ -30,9 +30,9 @@ class Session(ndb.Model):
 class User(ndb.Model):
   username = ndb.StringProperty()
   fullname = ndb.StringProperty(default='')
-  is_active = ndb.BooleanProperty()
+  is_active = ndb.BooleanProperty(default=False)
   password = ndb.StringProperty()
-  email = ndb.StringProperty()
+  email = ndb.StringProperty(default='')
 
   @property
   def has_valid_username(self):
@@ -61,7 +61,6 @@ class User(ndb.Model):
     for k, v in args.items():
       if hasattr(self, k):
         setattr(self, k, v)
-        print self.key
     self.put()
     
   def UpdatePassword(self, current_password, new_password):
