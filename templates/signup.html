@@ -11,12 +11,8 @@
 		<input class="form-control bottom" placeholder="Password Confirmation"
            name="password_confirmation" type="password"
            value="{{password_confirmation}}" required>
-		<div style="padding-left: 30px; padding-bottom: 10px;">
-			<script type="text/javascript">
-	      var RecaptchaOptions = {"curl_timeout":1};
-      </script>
-      <script src='https://www.google.com/recaptcha/api.js'></script>
-      <div class="g-recaptcha" data-sitekey="6LcvKSATAAAAAGmjdxYMv5d2DLGhibbB4ilIwxgd"></div>
+    {% include "recaptcha.html" %}
+
 		<input class="btn btn-lg btn-primary btn-block" type="submit" value="Register">
 <!--		<p class="text-center" style="margin-top:10px;">OR</p>
     <a class="btn btn-lg btn-block btn-default btn-social-icon btn-google"
