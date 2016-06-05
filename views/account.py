@@ -14,18 +14,31 @@ PASSWORD_CONFIRMATION = 'password_confirmation'
 class View(BaseView):
   """Index/Landing page view."""
 
+  @BaseView.login_required
   def get(self):
     self.template_values['page_name'] = 'account/basic'
     self.send_response('account.html')
 
 class Password(BaseView):
+  @BaseView.login_required
   def get(self):
     self.template_values['page_name'] = 'account/password'
     self.send_response('account.html')
 
+  @BaseView.login_required
   def post(self):
+
     self.template_values['page_name'] = 'account/password'
     passwords = dict(self.request.POST)
+
+    if not self.verify_recaptcha():
+      self.template_values['alerts'].append({
+        'class': views.ALERT_CLASS_WARNING,
+        'content': 'Please check reCAPTCHA input.'
+      })
+      self.template_values.update(passwords)
+      self.send_response('account.html')
+      return
 
     current_user = self.user
     if not current_user:
@@ -86,6 +99,7 @@ class Password(BaseView):
     
 
 class Basic(BaseView):
+  @BaseView.login_required
   def post(self):
 
     if not self.verify_recaptcha():

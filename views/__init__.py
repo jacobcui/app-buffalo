@@ -1,8 +1,10 @@
 """Basic view handler."""
 
+from functools import wraps
 import jinja2
 import json
 import uuid
+import urls
 import webapp2
 
 from google.appengine.api.urlfetch import Fetch
@@ -109,3 +111,11 @@ class BaseView(webapp2.RequestHandler):
       return result_dict.get('success', False)
 
     return False
+
+  @classmethod
+  def login_required(cls, f):
+    def check_login(self, *args, **kwargs):
+      if self.user is None:
+        return self.redirect(urls.SIGNIN)
+      return f(self, *args, **kwargs)
+    return check_login
