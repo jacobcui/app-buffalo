@@ -33,6 +33,7 @@ class User(ndb.Model):
   is_active = ndb.BooleanProperty(default=False)
   password = ndb.StringProperty()
   email = ndb.StringProperty(default='')
+  created_at = ndb.DateProperty(auto_now_add=True)
 
   @property
   def has_valid_username(self):
@@ -46,6 +47,15 @@ class User(ndb.Model):
       return key.get()
 
     return None
+
+  @classmethod
+  def getByEmail(cls, email):
+    # Email will also be unique amongst the system.
+    if email:
+      return cls.query(cls.email==email).get()
+
+    return None
+
     
   @classmethod
   def Create(cls, username, password):

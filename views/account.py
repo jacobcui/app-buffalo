@@ -1,10 +1,11 @@
 """Landing page."""
 
 
+from models import User
 from views import BaseView
-import views
-import urls
 import settings
+import urls
+import views
 
 CURRENT_PASSWORD = 'current_password'
 PASSWORD = 'password'
@@ -101,20 +102,33 @@ class Password(BaseView):
 class Basic(BaseView):
   @BaseView.login_required
   def post(self):
-
+    self.template_values['page_name'] = 'account/basic'
     if not self.verify_recaptcha():
-      self.template_values['page_name'] = 'account/basic'
       self.template_values['alerts'].append({
         'class': views.ALERT_CLASS_WARNING,
         'content': 'Please check reCAPTCHA input.'
       })
       self.send_response('account.html')
     else:
-      current_user = self.user
-      if current_user:
-        data_to_update = {}
-        for field in ['email', 'fullname']:
-          if self.request.get(field):
-            data_to_update[field] = self.request.get(field)
-        current_user.Update(**data_to_update)
-      self.redirect('/account')
+      # Already signed in.
+      data_to_update = {}
+      for field in ['email', 'fullname']:
+        if self.request.get(field):
+          field_data = self.request.get(field)
+          if field == 'email':
+            field_data = field_data.lower()
+            field_data = field_data.strip()
+            # Whether the email has been registered.
+            user_entity = User.getByEmail(field_data)
+            if user_entity and user_entity.username != self.user.username:
+              self.template_values['alerts'].append({
+                'class': views.ALERT_CLASS_WARNING,
+                'content': 'Email {} has been used by other user.'.format(field_data)
+              })
+          data_to_update[field] = field_data
+      
+      if self.template_values['alerts']:
+        self.send_response('account.html')
+      else:
+        self.user.Update(**data_to_update)
+        self.redirect('/account')

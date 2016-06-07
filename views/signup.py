@@ -16,6 +16,15 @@ class View(BaseView):
     self.template_values['page_name'] = 'signin'
     signup_data = dict(self.request.POST)
     # {u'_token': u'', u'username': u'jacobcui', u'password_confirmation': u'qwqq', u'g-recaptcha-response': u'', u'password': u'qwqq'}
+    if not self.verify_recaptcha():
+      self.template_values['alerts'].append({
+        'class': views.ALERT_CLASS_WARNING,
+        'content': 'Please check reCAPTCHA input.'
+      })
+      human_verified = False
+    else:
+      human_verified = True
+
     for field in ['username', 'password', 'password_confirmation']:
       value = signup_data.get(field, '').strip()
 
@@ -47,7 +56,7 @@ class View(BaseView):
         'content': 'Please input valid username. Letters, Numbers, -, _ are allowed.'
       })      
       
-    if User.getByUsername(signup_data.get('username', '')):
+    if human_verified and User.getByUsername(signup_data.get('username', '')):
       self.template_values['alerts'].append({
         'class': views.ALERT_CLASS_WARNING,
         'content': 'User with username {} has been registered.'.format(signup_data.get('username'))
@@ -58,7 +67,7 @@ class View(BaseView):
       self.send_response('signup.html')
       return
 
-    username=signup_data.get('username')
+    username=signup_data.get('username').strip()
 
     # Create user
     self.user = User.Create(username=username,
