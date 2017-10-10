@@ -9,10 +9,7 @@ function check_git {
 check_git
 
 INSTALL_DIR=$(dirname `pwd`)
-# https://cloud.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python
-GOOGLE_APPENGINE_VERSION=1.9.37
-GOOGLE_APPENGINE=google_appengine
-GOOGLE_APPENGINE_FILE=${GOOGLE_APPENGINE}_${GOOGLE_APPENGINE_VERSION}.zip
+
 CLOSURE_LIBRARY=closure-library
 CLOSURE_TEMPLATES=closure-templates
 CLOSURE_TEMPLATES_COMPILER=closure-templates-compiler
@@ -20,12 +17,6 @@ CLOSURE_TEMPLATES_COMPILER_FILE=closure-templates-for-javascript-latest.zip
 CLOSURE_COMPILER=closure-compiler
 CLOSURE_LINTER=closure-linter
     
-function install_appengine {
-    curl -O https://storage.googleapis.com/appengine-sdks/featured/${GOOGLE_APPENGINE_FILE} && unzip ${GOOGLE_APPENGINE_FILE}
-    rm -rf ${INSTALL_DIR}/${GOOGLE_APPENGINE}
-    mv ${GOOGLE_APPENGINE} ${GOOGLE_APPENGINE_FILE} ${INSTALL_DIR}/
-}
-
 function install_closure_lib {
     ## Get closure-library
     git clone https://github.com/google/${CLOSURE_LIBRARY}.git ${INSTALL_DIR}/${CLOSURE_LIBRARY}
@@ -58,13 +49,8 @@ function install_closure_linter {
     # fixjsstyle - tries to fix errors automatically
 }
 
-
 case $1 in
-    "appengine")
-        rm -r ../google_appengine;
-        install_$1 ;;
     *)
-        install_appengine ;
         install_closure_lib ;
         install_closure_compiler ;
         install_closure_templates ;
