@@ -43,10 +43,13 @@ App engine + webapp2 + jinja2 + Endpoints + Bootstrap + Google closure.
 # Other notes
 
   You can stream logs from the command line by running:
+
   ``
   $ gcloud app logs tail -s default
   ``
+
   To view your application in the web browser run:
+
   ``
   $ gcloud app browse
   ``
