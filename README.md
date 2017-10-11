@@ -39,7 +39,10 @@ App engine + webapp2 + jinja2 + Endpoints + Bootstrap + Google closure.
 # Deploy
   ```
   $ ~/google-cloud-sdk/bin/gcloud app deploy --version prod --project <Your Project Id>
+  For example
+  $ ~/google-cloud-sdk/bin/gcloud app deploy --version prod --project twoyap-182511
   ```
+  
   Please note, the Project Id is not the project name that you created via cloud console. It's in the ``Project Info`` tab and it looks like ``your-project-name-12345`` 
 
 # Other notes
