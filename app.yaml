@@ -18,7 +18,6 @@ handlers:
 - url: /.*
   script: urls.app
 
-
 libraries:
 - name: webapp2
   version: latest
@@ -28,3 +27,7 @@ libraries:
   version: latest
 - name: endpoints
   version: 1.0
+
+skip_files:
+- ^js/(.*/)?
+- ^.*node_modules(/.*)?

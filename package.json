@@ -1,0 +1,38 @@
+{
+  "name": "sharedig-firebase",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --hot --content-base ./dist",
+    "watch": "webpack --watch",
+    "build": "webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "closure-loader": "^0.3.1",
+    "exports-loader": "^0.6.4",
+    "html-webpack-plugin": "^2.30.1",
+    "imports-loader": "^0.7.1",
+    "path": "^0.12.7",
+    "webpack": "^3.5.5",
+    "webpack-dev-server": "^2.7.1"
+  },
+  "dependencies": {
+    "bootstrap": "^4.0.0-alpha.6",
+    "firebase": "^4.3.1",
+    "firebase-tools": "^3.11.0",
+    "firebaseui": "^2.3.0",
+    "google-closure-library": "^20170806.0.0",
+    "handlebars": "^4.0.10",
+    "jquery": "^3.2.1",
+    "lodash": "^4.17.4",
+    "popper.js": "^1.12.5",
+    "slugify": "^1.2.1"
+  }
+}

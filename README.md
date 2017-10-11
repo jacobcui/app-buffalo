@@ -17,9 +17,10 @@ App engine + webapp2 + jinja2 + Endpoints + Bootstrap + Google closure.
   ```
   $ google-cloud-sdk/bin/gcloud init
   ```
-# Install Google Closure Library
+# Install npm for javascript compiling.Google Closure Library
   ```
-  $./install.sh
+  $ npm i -g npm
+  $ npm install
   ```
 
 # Set up application in ``settings.py``:
@@ -31,6 +32,7 @@ App engine + webapp2 + jinja2 + Endpoints + Bootstrap + Google closure.
 # Run Local Server
   ```
   $ cd <to your application directory>
+  $ npm run watch
   $ ~/google-cloud-sdk/bin/dev_appserver.py .
   ```
 
